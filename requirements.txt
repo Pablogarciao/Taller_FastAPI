@@ -1,0 +1,3 @@
+emplear la librería requests
+pandas
+numpy
