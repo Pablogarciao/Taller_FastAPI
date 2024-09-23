@@ -1,6 +1,12 @@
 --
+<<<<<<< HEAD
 -- PostgreSQL database dump
 --
+=======
+-- PostgreSQL database Taller_FastAPI
+--
+CREATE DATABASE Taller_FastAPI;
+>>>>>>> origin/main
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
