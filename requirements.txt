@@ -1,3 +1,22 @@
-emplear la librería requests
-pandas
-numpy
+#emplear la librería requests
+pip install pandas
+pip install numpy
+pip install fastapi sqlalchemy psycopg2-binary
+pip install uvicorn
+
+from fastapi import FastAPI, HTTPException, Depends
+from pydantic import BaseModel
+from typing import List, Annotated
+
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, LargeBinary, String
+from database import Base
+
+import models
+from sqlalchemy.orm import Session
+from database import SessionLocal
+
+#para correr la aplicación
+uvicorn main:app --reload   #main es el nombre del archivo y app es el nombre de la variable que contiene la aplicación
