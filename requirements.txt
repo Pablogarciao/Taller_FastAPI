@@ -1,8 +1,3 @@
-# Crear environment
-python3 -m venv fastapi
-source fastapi/bin/activate
-
-
 # Crear contenedor de docker
 docker run --name DB_Taller_FastAPI -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=password -e POSTGRES_DB=Taller_FastAPI -p 5433:5432 -d postgres
 
@@ -11,10 +6,18 @@ docker run --name DB_Taller_FastAPI -e POSTGRES_USER=postgres -e POSTGRES_PASSWO
 docker ps
 docker cp ./northwind.sql DB_Taller_FastAPI:/northwind.sql
 docker exec -it DB_Taller_FastAPI bash
+
+
+# Importar archivo northwind.sql en PostgreSQL
 psql -U postgres -d Taller_FastAPI
 \i /northwind.sql
 \dt
 \q
+
+
+# Crear environment
+python3 -m venv fastapi
+source fastapi/bin/activate
 
 
 # Librerias
@@ -24,4 +27,4 @@ pip install sqlalchemy psycopg2-binary asyncpg
 
 
 #para correr la aplicación
-uvicorn main:app --reload   #main es el nombre del archivo y app es el nombre de la variable que contiene la aplicación
+uvicorn main:app --reload
