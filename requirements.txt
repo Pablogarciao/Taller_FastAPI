@@ -1,9 +1,9 @@
-#emplear la librería requests
-pip install pandas
-pip install numpy
-pip install fastapi sqlalchemy psycopg2-binary
-pip install uvicorn
+# Requisitos
+Trabajar en un sistema de alguna distro de linux. Como  WSL o Mac.
+Tener Docker instalado y abrirlo en el momento de la ejecucion del setup
+Tener python3 instalado
+Tener python3-venv instalado
 
 
-#para correr la aplicación
-uvicorn main:app --reload   #main es el nombre del archivo y app es el nombre de la variable que contiene la aplicación
+# Ejecutar el archivo
+bash setup.sh

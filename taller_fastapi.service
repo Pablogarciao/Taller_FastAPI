@@ -1,0 +1,27 @@
+[Unit]
+Description=Taller_FastAPI service
+After=network.target
+
+[Service]
+User=david
+Group=fastapi
+WorkingDirectory=/home/david/Taller_FastAPI
+ExecStart=/home/david/Taller_FastAPI/fastapi/bin/uvicorn main:app --host 0.0.0.0 --port 8000
+
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
+
+
+---------------------------------
+Pasos para usarlo:
+1. Copiar lo anterior, cambiando la ruta de en donde se encuentra el environment del proyecto y crear un archivo con esa info en:
+sudo nano /etc/systemd/system taller_fastapi.service
+Despues:
+2. Recargar los servicios de systemd: sudo systemctl daemon-reload
+3. Iniciar el servicio: sudo systemctl start taller_fastapi.service
+4. Habilitar el servicio para que se inicie al arrancar el sistema: sudo systemctl enable taller_fastapi.service
+5. Verificar el estado del servicio: sudo systemctl status taller_fastapi.service
+6. Parar el servicio: sudo systemctl stop taller_fastapi.service
