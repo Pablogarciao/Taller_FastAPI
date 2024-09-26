@@ -54,13 +54,16 @@ def read_root():
     return {"message": "Welcome to the FastAPI application"}
 
 db_dependency = Annotated[Session, Depends(get_db)]
-
-# Create a new category
+#///////////////////////////////////////////////////////////////////////////////////////////////////////
+# Create a new category //hacer excepcion
 @app.post("/categories/")
 async def create_category(category: CategoryCreate, db: Session = Depends(get_db)):
-    #print(db.query(models.Categories).count())
+    # Verificar si ya existe una categoría con el mismo nombre
+    existing_category = db.query(models.Categories).filter(models.Categories.category_name == category.category_name).first()
+    if existing_category:
+        raise HTTPException(status_code=409, detail="Category name already exists")
     
-    # Find the maximum category_id and increment it by 1
+    # Encontrar el máximo category_id e incrementarlo en 1
     max_id = db.query(models.Categories.category_id).order_by(models.Categories.category_id.desc()).first()
     new_id = (max_id[0] + 1) if max_id else 1
     
@@ -74,8 +77,9 @@ async def create_category(category: CategoryCreate, db: Session = Depends(get_db
     db.commit()
     db.refresh(db_category)
     
-    # Count the total number of records in the database
+    # Contar el número total de registros en la base de datos
     total_records = db.query(models.Categories).count()
+    
     return {"message": "Category created successfully", "added_records": 1, "total_records": total_records}
 
 
@@ -105,7 +109,7 @@ async def create_category(category: CategoryCreate, db: Session = Depends(get_db
 #     return {"message": "Order detail created successfully", "added_records": 1, "total_records": total_records}
 
 
-# Read a category by ID
+# Read a category by ID //hacer exepcion
 @app.get("/category/{category_id}", response_model=Category)
 def read_category(category_id: int, db: Session = Depends(get_db)):
     db_category = db.query(models.Categories).filter(models.Categories.category_id == category_id).first()
@@ -113,9 +117,11 @@ def read_category(category_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Category not found")
     return db_category
 
-# Read all categories with pagination
+# Read all categories with pagination // hacer exepcion .... >=1
 @app.get("/categories/{page}", response_model=List[Category])
 def read_categories(page: int, db: Session = Depends(get_db)):
+    if page < 1:
+        raise HTTPException(status_code=400, detail="Page should be >=1")
     limit = 100
     skip = (page - 1) * limit
     categories = db.query(models.Categories).offset(skip).limit(limit).all()
