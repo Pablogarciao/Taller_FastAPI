@@ -61,7 +61,17 @@ async def create_category(category: CategoryCreate, db: Session = Depends(get_db
     # Contar el número total de registros en la base de datos
     total_records = db.query(models.Categories).count()
     
-    return {"message": "Category created successfully", "added_records": 1, "total_records": total_records}
+    return {
+        "message": "Category created successfully", 
+        "added_records": 1, 
+        "total_records": total_records,
+        "data": {
+            "category_id": db_category.category_id,
+            "category_name": db_category.category_name,
+            "description": db_category.description,
+            "picture": db_category.picture
+        }
+    }
 
 
 # Read a category by ID
