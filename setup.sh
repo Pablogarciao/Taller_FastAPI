@@ -8,7 +8,7 @@ DB_NAME="Taller_FastAPI"
 DB_CONTAINER_NAME="DB_Taller_FastAPI"
 DB_USER="postgres"
 DB_PASSWORD="password"
-SQL_FILE="./northwind.sql"
+SQL_FILE="./db/northwind.sql"
 VENV_DIR="fastapi"
 
 
