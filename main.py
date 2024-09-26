@@ -2,12 +2,10 @@ from fastapi import FastAPI, HTTPException, Depends
 from pydantic import BaseModel
 import db.models as models
 from sqlalchemy.orm import Session
-from db.database import engine, SessionLocal
-from typing import List, Annotated, Optional
-from db.database import Base
+from db.database import SessionLocal
+from typing import List, Optional
 
 app = FastAPI()
-Base.metadata.create_all(bind=engine)
 
 # Pydantic models
 class CategoryBase(BaseModel):
@@ -32,8 +30,6 @@ def get_db():
         yield db
     finally:
         db.close()
-
-db_dependency = Annotated[Session, Depends(get_db)]
 
 
 # Create a new category //hacer excepcion
