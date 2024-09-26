@@ -8,13 +8,13 @@ DB_NAME="Taller_FastAPI"
 DB_CONTAINER_NAME="DB_Taller_FastAPI"
 DB_USER="postgres"
 DB_PASSWORD="password"
-SQL_FILE="./northwind.sql"
+SQL_FILE="./db/northwind.sql"
 VENV_DIR="fastapi"
 
 
 #? Creacion del Docker
 echo "Creando contenedor de Docker..."
-docker run --name $DB_CONTAINER_NAME -e POSTGRES_USER=$DB_USER -e POSTGRES_PASSWORD=$DB_PASSWORD -e POSTGRES_DB=$DB_NAME -p 5433:5432 -d postgres
+docker run --name $DB_CONTAINER_NAME -e POSTGRES_USER=$DB_USER -e POSTGRES_PASSWORD=$DB_PASSWORD -e POSTGRES_DB=$DB_NAME -p 5433:5432 --restart unless-stopped -d postgres
 
 # Esperar a que el contenedor esté listo
 echo "Esperando a que el contenedor esté listo..."
@@ -31,7 +31,7 @@ done
 
 
 #? Copiar el archivo de la base de datos al contenedor
-echo "Importando archivo SQL en Docker..."
+echo -e "\nImportando archivo SQL en Docker..."
 docker cp $SQL_FILE $DB_CONTAINER_NAME:/northwind.sql
 
 # Importar archivo northwind.sql en PostgreSQL
@@ -40,7 +40,7 @@ docker exec -i $DB_CONTAINER_NAME psql -U $DB_USER -d $DB_NAME -f /northwind.sql
 
 
 #? Crear entorno virtual
-echo "Creando entorno virtual..."
+echo -e "\nCreando entorno virtual..."
 python3 -m venv $VENV_DIR
 source $VENV_DIR/bin/activate
 
@@ -49,6 +49,7 @@ echo "Instalando librerías..."
 pip install pandas fastapi uvicorn sqlalchemy psycopg2-binary asyncpg
 
 
-#? Mensaje final
-echo "Todo está configurado. Para correr la aplicación, ejecuta:"
-echo "uvicorn main:app --reload"
+#? Ejecucion del programa
+echo -e "\n\nTodo está configurado para correr la aplicación"
+echo -e "\tEjecutandose en: http://localhost:8000/docs"
+uvicorn main:app --reload
