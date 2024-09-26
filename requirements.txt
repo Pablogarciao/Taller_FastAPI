@@ -1,9 +1,7 @@
-# Requisitos
-Trabajar en un sistema de alguna distro de linux. Como  WSL o Mac.
-Tener Docker instalado y abrirlo en el momento de la ejecucion del setup
-Tener python3 instalado
-Tener python3-venv instalado
-
-
-# Ejecutar el archivo
-bash setup.sh
+pandas
+fastapi
+uvicorn
+sqlalchemy
+psycopg2-binary
+asyncpg
+requests

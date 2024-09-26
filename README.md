@@ -7,7 +7,7 @@ Se debe trabajar en un sistema de alguna distro de linux. Como  WSL (para Window
 
 Ademas se debe tener:
 
-- Docker instalado y abrirlo en el momento de la ejecucion del setup
+- Docker instalado y corriendo
 - Tener python3 instalado
 - Tener python3-venv instalado
 
@@ -33,7 +33,7 @@ http://localhost:8000/docs
 ```
 
 
-## Uso
+## Rutas
 Cuenta con las siguientes rutas:
 
 ### Create Category
@@ -64,4 +64,4 @@ Cuenta con las siguientes rutas:
 ### Populate Categories
 - **Metodo:** POST
 - **Ruta:** /populate_categories
-- **Descripcion**: Llena la tabla de categories con un total de 1000 filas
+- **Descripcion**: Llena la tabla de categories hasta un total de 1000 filas
