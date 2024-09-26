@@ -59,3 +59,12 @@ else
 fi
 
 echo -e "${GREEN}\nEjecutandose desde el servicio en: http://localhost:8000/docs${NC}"
+
+read -p "Le gustaria levantar el servicio con NGROK? [y/n] " NGROK
+
+if [[ "$NGROK" == "y" || "$NGROK" == "Y" || -z "$NGROK" ]]; then
+  echo -e "${GREEN}Levantando el servicio con NGROK...${NC}"
+  ngrok http http://localhost:8000
+else
+  echo -e "${RED}No se levantará el servicio con NGROK.${NC}"
+fi
