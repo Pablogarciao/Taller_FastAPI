@@ -1,12 +1,17 @@
 #!/bin/bash
 
-RUNNING=$(sudo systemctl status $SERVICE_NAME)
+# Variables
+SERVICE_NAME="taller_fastapi.service"
+VENV_DIR="fastapi"
 
-if [ "$EXIST" = "Unit $SERVICE_NAME could not be found." ]; then
-  # Ejecutar el programa en modo desarrollo
-  echo "Ejecutandose en modo dev: http://localhost:8000/docs"
-  uvicorn main:app --reload
-else
-  sudo systemctl restart $SERVICE_NAME
-  echo "Ejecutandose desde el $SERVICE_NAME: http://localhost:8000/docs"
+
+SERVICE_STATUS=$(sudo systemctl is-active $SERVICE_NAME 2>&1)
+
+if [ "$SERVICE_STATUS" = "active" ]; then
+  sudo systemctl stop $SERVICE_NAME
 fi
+
+
+echo "Ejecutando en modo dev: http://localhost:8000/docs"
+source $VENV_DIR/bin/activate
+uvicorn main:app --reload

@@ -11,10 +11,6 @@ DB_PASSWORD="password"
 SQL_FILE="./db/northwind.sql"
 VENV_DIR="fastapi"
 
-# Variables de entorno
-SERVICE_NAME="taller_fastapi.service"
-export SERVICE_NAME
-
 # Colores ANSI
 RED='\033[0;31m'
 GREEN='\033[0;32m'
