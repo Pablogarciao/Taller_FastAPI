@@ -10,10 +10,11 @@ Ademas se debe tener:
 - Docker instalado y corriendo
 - Tener python3 instalado
 - Tener python3-venv instalado
+- [Opcional] Tener Ngrok descargado y configurado
 
 
 ## Ejecucion
-Abrir la terminal sobre esta carpeta y ejecutar el siguiente comando:
+Abrir la terminal sobre esta carpeta y ejecutar el siguiente comando para instalar todo lo necesario:
 
 ```
 bash setup.sh
@@ -24,12 +25,36 @@ Este comando hara lo siguiente:
 - Creacion del Docker.
 - Creacion de la base de datos "northwind" en el docker. 
 - Crear un entorno virtual y librerias necesarias para el programa
-- Por ultimo, ejecutará el programa
 
-Despues de esto, se puede copiar el siguiente link en un navegador para usarlo:
+Despues de esto, se daran las siguientes opciones:
+
+### Modo dev
+Ejecutara el proyecto en modo desarrollo, se actualizara automaticamente de manera local.
+
+Se podra usar con la siguiente URL:
 
 ```
 http://localhost:8000/docs
+```
+
+
+### Modo producción
+Creara un servicio para que con tener wsl y docker corriendo, se pueda usar.
+
+Se podra usar con la siguiente URL:
+
+```
+http://localhost:8000/docs
+```
+
+
+#### NGROK
+Al levantar en produccion se da la opción de levantar este servicio de manera que cualquier persona externa pueda usarlo.
+
+La URL puede cambiar cada que se levante, sera como el siguiente ejemplo:
+
+```
+https://1b3b-190-240-74-248.ngrok-free.app/docs
 ```
 
 

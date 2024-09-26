@@ -59,8 +59,8 @@ pip install -r requirements.txt
 #? Ejecucion del programa
 echo -e "\n\n${GREEN}Todo está configurado para correr la aplicación.${NC}"
 
-echo -e "\nPara ejecutar localmente:"
+echo -e "\nPara ejecutar en modo dev:"
 echo -e "\t${GREEN}bash dev.sh${NC}"
 
-echo -e "\nPara levantar en produccion"
+echo -e "\nPara levantar en modo produccion"
 echo -e "\t${GREEN}bash start.sh${NC}"
