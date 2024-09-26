@@ -28,6 +28,7 @@ Este comando hara lo siguiente:
 
 Despues de esto, se daran las siguientes opciones:
 
+---
 ### Modo dev
 Ejecutara el proyecto en modo desarrollo, se actualizara automaticamente de manera local.
 
@@ -37,7 +38,7 @@ Se podra usar con la siguiente URL:
 http://localhost:8000/docs
 ```
 
-
+---
 ### Modo producción
 Creara un servicio para que con tener wsl y docker corriendo, se pueda usar.
 
@@ -47,7 +48,7 @@ Se podra usar con la siguiente URL:
 http://localhost:8000/docs
 ```
 
-
+---
 #### NGROK
 Al levantar en produccion se da la opción de levantar este servicio de manera que cualquier persona externa pueda usarlo.
 
