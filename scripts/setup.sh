@@ -8,8 +8,9 @@ DB_NAME="Taller_FastAPI"
 DB_CONTAINER_NAME="DB_Taller_FastAPI"
 DB_USER="postgres"
 DB_PASSWORD="password"
-SQL_FILE="./db/northwind.sql"
-VENV_DIR="fastapi"
+SCRIPT_DIR=$(dirname "$(realpath "$0")")
+VENV_DIR=$(realpath "$SCRIPT_DIR/../fastapi")
+SQL_FILE=$(realpath "$SCRIPT_DIR/../db/northwind.sql")
 
 # Colores ANSI
 RED='\033[0;31m'
@@ -60,7 +61,7 @@ pip install -r requirements.txt
 echo -e "\n\n${GREEN}Todo está configurado para correr la aplicación.${NC}"
 
 echo -e "\nPara ejecutar en modo dev:"
-echo -e "\t${GREEN}bash dev.sh${NC}"
+echo -e "\t${GREEN}bash run.sh dev${NC}"
 
 echo -e "\nPara levantar en modo produccion"
-echo -e "\t${GREEN}bash start.sh${NC}"
+echo -e "\t${GREEN}bash run.sh start${NC}"

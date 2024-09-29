@@ -1,10 +1,12 @@
 #!/bin/bash
 
 # Variables
-VENV_DIR="fastapi"
+SCRIPT_DIR=$(dirname "$(realpath "$0")")
+VENV_DIR=$(realpath "$SCRIPT_DIR/../fastapi")
+PROJECT_PATH=$(realpath "$SCRIPT_DIR/../")
+
 SERVICE_NAME="taller_fastapi.service"
 SERVICE_PATH="/etc/systemd/system/$SERVICE_NAME"
-PROJECT_PATH=$(pwd)
 
 # Colores ANSI
 RED='\033[0;31m'
@@ -24,7 +26,7 @@ After=network.target
 [Service]
 User=$USER
 WorkingDirectory=$PROJECT_PATH
-ExecStart=$PROJECT_PATH/$VENV_DIR/bin/uvicorn main:app --host 0.0.0.0 --port 8000
+ExecStart=$VENV_DIR/bin/uvicorn main:app --host 0.0.0.0 --port 8000
 Restart=always
 
 [Install]

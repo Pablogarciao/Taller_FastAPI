@@ -14,10 +14,10 @@ Ademas se debe tener:
 
 
 ## Ejecucion
-Abrir la terminal sobre esta carpeta y ejecutar el siguiente comando para instalar todo lo necesario:
+Abrir la terminal sobre esta carpeta y ejecutar el siguiente comando para instalar lo necesario para la ejecución:
 
 ```
-bash setup.sh
+bash run.sh setup
 ```
 
 Este comando hara lo siguiente:
@@ -32,6 +32,12 @@ Despues de esto, se daran las siguientes opciones:
 ### Modo dev
 Ejecutara el proyecto en modo desarrollo, se actualizara automaticamente de manera local.
 
+**Ejecutar con:**
+
+```
+bash run.sh dev
+```
+
 Se podra usar con la siguiente URL:
 
 ```
@@ -42,14 +48,19 @@ http://localhost:8000/docs
 ### Modo producción
 Creara un servicio para que con tener wsl y docker corriendo, se pueda usar.
 
+**Ejecutar con:**
+
+```
+bash run.sh start
+```
+
 Se podra usar con la siguiente URL:
 
 ```
 http://localhost:8000/docs
 ```
 
----
-#### NGROK
+##### NGROK
 Al levantar en produccion se da la opción de levantar este servicio de manera que cualquier persona externa pueda usarlo.
 
 La URL puede cambiar cada que se levante, sera como el siguiente ejemplo:

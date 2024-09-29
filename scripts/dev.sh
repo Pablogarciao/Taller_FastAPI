@@ -2,7 +2,8 @@
 
 # Variables
 SERVICE_NAME="taller_fastapi.service"
-VENV_DIR="fastapi"
+SCRIPT_DIR=$(dirname "$(realpath "$0")")
+VENV_DIR=$(realpath "$SCRIPT_DIR/../fastapi")
 
 
 SERVICE_STATUS=$(sudo systemctl is-active $SERVICE_NAME 2>&1)
