@@ -120,6 +120,8 @@ def delete_category(category_id: int, db: Session = Depends(get_db)):
     return db_category
 
 
+
+
 # Function to populate the categories table
 @app.post("/populate_categories/")
 def populate_categories(db: Session = Depends(get_db)):
