@@ -1,13 +1,13 @@
 import requests
 
 # URL base del endpoint
-BASE_URL = "http://localhost:8000/categories/"
+BASE_URL = "https://effb-190-240-74-248.ngrok-free.app/categories/"
 
 # Datos para crear la categoría (puedes modificar estos valores)
 category_data = {
     "category_name": "Electronics",
     "description": "All electronics",
-    "picture": None
+    "picture": ""
 }
 
 def get_total_records():

@@ -1,7 +1,7 @@
 import requests
 
 # URL base del endpoint
-BASE_URL = "http://localhost:8000/category/"
+BASE_URL = "https://effb-190-240-74-248.ngrok-free.app/category/"
 
 # ID de la categoría que deseas buscar
 category_id_to_test = 9  # Cambia este valor según el ID que deseas probar
@@ -20,7 +20,7 @@ def read_category():
             "category_id": category_id_to_test,
             "category_name": "Electronics",  # Cambia según el nombre esperado
             "description": "All electronics",  # Cambia según la descripción esperada
-            "picture": None  # Cambia según la imagen esperada
+            "picture": ""  # Cambia según la imagen esperada
         }
 
         # Comparar la respuesta recibida con la esperada

@@ -1,7 +1,7 @@
 import requests
 
 # URL base del endpoint
-BASE_URL = "http://localhost:8000/categories/"
+BASE_URL = "https://effb-190-240-74-248.ngrok-free.app/categories/"
 
 # Página que deseas probar
 page_to_test = 1  # Cambia esto según la página que quieras probar
