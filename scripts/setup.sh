@@ -19,10 +19,16 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
+# Asegúrate de que Docker esté en funcionamiento
+sudo systemctl start docker
 
-#? Creacion del Docker
+#? Creación del contenedor de Docker
 echo -e "${BLUE}Creando contenedor de Docker...${NC}"
-docker run --name $DB_CONTAINER_NAME -e POSTGRES_USER=$DB_USER -e POSTGRES_PASSWORD=$DB_PASSWORD -e POSTGRES_DB=$DB_NAME -p 5433:5432 --restart unless-stopped -d postgres
+docker run --name $DB_CONTAINER_NAME \
+    -e POSTGRES_USER=$DB_USER \
+    -e POSTGRES_PASSWORD=$DB_PASSWORD \
+    -e POSTGRES_DB=$DB_NAME \
+    -p 5433:5432 --restart unless-stopped -d postgres
 
 # Esperar a que el contenedor esté listo
 echo -e "${BLUE}Esperando a que el contenedor esté listo...${NC}"
@@ -37,15 +43,13 @@ while ! docker exec $DB_CONTAINER_NAME pg_isready -U $DB_USER; do
     fi
 done
 
-
-#? Copiar el archivo de la base de datos al contenedor
+#? Copiar el archivo SQL al contenedor
 echo -e "\n${BLUE}Importando archivo SQL en Docker...${NC}"
 docker cp $SQL_FILE $DB_CONTAINER_NAME:/northwind.sql
 
-# Importar archivo northwind.sql en PostgreSQL
+# Importar archivo SQL en la base de datos PostgreSQL
 echo -e "${BLUE}Importando la base de datos...${NC}"
 docker exec -i $DB_CONTAINER_NAME psql -U $DB_USER -d $DB_NAME -f /northwind.sql
-
 
 #? Crear entorno virtual
 echo -e "\n${BLUE}Creando entorno virtual...${NC}"
@@ -54,14 +58,12 @@ source $VENV_DIR/bin/activate
 
 # Instalar librerías
 echo -e "${BLUE}Instalando librerías...${NC}"
-pip install -r requirements.txt
+pip install -r $SCRIPT_DIR/../requirements.txt
 
-
-#? Ejecucion del programa
+#? Ejecución final
 echo -e "\n\n${GREEN}Todo está configurado para correr la aplicación.${NC}"
-
 echo -e "\nPara ejecutar en modo dev:"
 echo -e "\t${GREEN}bash run.sh dev${NC}"
 
-echo -e "\nPara levantar en modo produccion"
+echo -e "\nPara levantar en modo producción:"
 echo -e "\t${GREEN}bash run.sh start${NC}"
