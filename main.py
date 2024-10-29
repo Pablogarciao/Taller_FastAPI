@@ -4,8 +4,13 @@ import db.models as models
 from sqlalchemy.orm import Session
 from db.database import SessionLocal
 from typing import List, Optional
+import boto3
+import json
 
 app = FastAPI()
+s3_client = boto3.client('s3')
+bucket_name = 'user-03-smm-ueia-so'
+
 
 # Pydantic models
 class CategoryBase(BaseModel):
@@ -35,39 +40,62 @@ def get_db():
 # Create a new category //hacer excepcion
 @app.post("/categories/")
 async def create_category(category: CategoryCreate, db: Session = Depends(get_db)):
-    # Verificar si ya existe una categoría con el mismo nombre
-    existing_category = db.query(models.Categories).filter(models.Categories.category_name == category.category_name).first()
-    if existing_category:
-        raise HTTPException(status_code=409, detail="Category name already exists")
-    
-    # Encontrar el máximo category_id e incrementarlo en 1
-    max_id = db.query(models.Categories.category_id).order_by(models.Categories.category_id.desc()).first()
-    new_id = (max_id[0] + 1) if max_id else 1
-    
-    db_category = models.Categories(
-        category_id=new_id,
-        category_name=category.category_name,
-        description=category.description,
-        picture=category.picture
-    )
-    db.add(db_category)
-    db.commit()
-    db.refresh(db_category)
-    
-    # Contar el número total de registros en la base de datos
-    total_records = db.query(models.Categories).count()
-    
-    return {
-        "message": "Category created successfully", 
-        "added_records": 1, 
-        "total_records": total_records,
-        "data": {
+    try:
+        # Verificar si ya existe una categoría con el mismo nombre
+        existing_category = db.query(models.Categories).filter(
+            models.Categories.category_name == category.category_name
+        ).first()
+        if existing_category:
+            raise HTTPException(status_code=409, detail="Category name already exists")
+
+        # Encontrar el máximo category_id e incrementarlo en 1
+        max_id = db.query(models.Categories.category_id).order_by(
+            models.Categories.category_id.desc()
+        ).first()
+        new_id = (max_id[0] + 1) if max_id else 1
+
+        # Crear la nueva categoría
+        db_category = models.Categories(
+            category_id=new_id,
+            category_name=category.category_name,
+            description=category.description,
+            picture=category.picture  # Asegúrate de que sea un string o base64, no bytes
+        )
+        db.add(db_category)
+        db.commit()
+        db.refresh(db_category)
+
+        # Convertir los datos de la categoría a JSON compatible
+        category_data = {
             "category_id": db_category.category_id,
             "category_name": db_category.category_name,
             "description": db_category.description,
-            "picture": db_category.picture
+            "picture": db_category.picture  # Asegúrate que no sea binario
         }
-    }
+
+        # Serializar a JSON y codificar en UTF-8
+        category_json = json.dumps(category_data, default=str).encode('utf-8')
+
+        # Subir los datos JSON al bucket de S3
+        s3_client.put_object(
+            Bucket=bucket_name,
+            Key=f'categories/id_{new_id}.json',
+            Body=category_json
+        )
+
+        # Contar el número total de registros en la base de datos
+        total_records = db.query(models.Categories).count()
+
+        # Respuesta del endpoint
+        return {
+            "message": "Category created successfully",
+            "added_records": 1,
+            "total_records": total_records,
+            "data": category_data
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error uploading to S3: {str(e)}")
 
 
 # Read a category by ID

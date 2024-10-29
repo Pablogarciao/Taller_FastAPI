@@ -69,6 +69,20 @@ La URL puede cambiar cada que se levante, sera como el siguiente ejemplo:
 https://1b3b-190-240-74-248.ngrok-free.app/docs
 ```
 
+---
+### Usar como instancia de ec2
+Despues de tener clonado el repositorio, se debe ejecutar los siguientes comando para tener todo listo en la instancia de ec2
+
+```
+bash run.sh setup
+```
+
+Despues de tener todo lovantado, usar el siguiente comando para habilitar el puerto 8000 y que sea accesible con la url publica del ec2:
+
+```
+bash run.sh ec2
+```
+
 
 ## Rutas
 Cuenta con las siguientes rutas:
