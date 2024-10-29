@@ -20,11 +20,12 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 # Asegúrate de que Docker esté en funcionamiento
+echo -e "${BLUE}Iniciando Docker...${NC}"
 sudo systemctl start docker
 
 #? Creación del contenedor de Docker
 echo -e "${BLUE}Creando contenedor de Docker...${NC}"
-docker run --name $DB_CONTAINER_NAME \
+sudo docker run --name $DB_CONTAINER_NAME \
     -e POSTGRES_USER=$DB_USER \
     -e POSTGRES_PASSWORD=$DB_PASSWORD \
     -e POSTGRES_DB=$DB_NAME \
@@ -34,30 +35,31 @@ docker run --name $DB_CONTAINER_NAME \
 echo -e "${BLUE}Esperando a que el contenedor esté listo...${NC}"
 timeout=30  # Tiempo máximo en segundos
 elapsed=0
-while ! docker exec $DB_CONTAINER_NAME pg_isready -U $DB_USER; do
+while ! sudo docker exec $DB_CONTAINER_NAME pg_isready -U $DB_USER; do
     sleep 1
     elapsed=$((elapsed + 1))
     if [ $elapsed -ge $timeout ]; then
-        echo -e "Error: El contenedor no está listo después de $timeout segundos."
+        echo -e "${RED}Error: El contenedor no está listo después de $timeout segundos.${NC}"
         exit 1
     fi
 done
 
 #? Copiar el archivo SQL al contenedor
 echo -e "\n${BLUE}Importando archivo SQL en Docker...${NC}"
-docker cp $SQL_FILE $DB_CONTAINER_NAME:/northwind.sql
+sudo docker cp $SQL_FILE $DB_CONTAINER_NAME:/northwind.sql
 
 # Importar archivo SQL en la base de datos PostgreSQL
 echo -e "${BLUE}Importando la base de datos...${NC}"
-docker exec -i $DB_CONTAINER_NAME psql -U $DB_USER -d $DB_NAME -f /northwind.sql
+sudo docker exec -i $DB_CONTAINER_NAME psql -U $DB_USER -d $DB_NAME -f /northwind.sql
 
 #? Crear entorno virtual
 echo -e "\n${BLUE}Creando entorno virtual...${NC}"
-python3 -m venv $VENV_DIR
+sudo python3 -m venv $VENV_DIR
 source $VENV_DIR/bin/activate
 
 # Instalar librerías
 echo -e "${BLUE}Instalando librerías...${NC}"
+pip install --upgrade pip  # Asegúrate de que pip esté actualizado
 pip install -r $SCRIPT_DIR/../requirements.txt
 
 #? Ejecución final
