@@ -69,22 +69,48 @@ La URL puede cambiar cada que se levante, sera como el siguiente ejemplo:
 https://1b3b-190-240-74-248.ngrok-free.app/docs
 ```
 
----
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Taller WSL
 ### Usar como instancia de ec2
-Despues de tener clonado el repositorio, se debe ejecutar los siguientes comando para tener todo listo en la instancia de ec2
+Despues de tener clonado el repositorio, se debe ejecutar los siguientes comandso para tener todo listo en la instancia de ec2:
+1. Conexión a la instancia
 
 ```
-bash run.sh setup
+ssh -i "ruta hasta donde se tenga la llave.pem ec2-user@"IP Pública de la instancia EC2"
+```
+2. se instalan todo lo necesario dentro de la instancia de EC2 para poderla correr correctamente
+```
+sudo yum update -y
+sudo yum install git -y
+sudo yum install python3 -y
+sudo yum install python3-pip -y
+sudo yum install docker -y
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo usermod -aG docker ec2-user
+```
+3. Se clona el repositorio dentro de la instancia
+```
+git clone URL del repositorio
+```
+3. Se navega hacia el repositorio
+```
+cd nombre de la carpeta del repositorio
 ```
 
-Despues de tener todo lovantado, usar el siguiente comando para habilitar el puerto 8000 y que sea accesible con la url publica del ec2:
+4. Despues de tener todo levantado, usar el siguiente comando para habilitar el puerto 8000 y que sea accesible con la url publica del ec2:
 
 ```
 bash run.sh ec2
 ```
 
+5. Probar el correcto funcionamiento del swagger de FastAPI dentro de la instancia, pegar en el buscador web:
+"IP Pública de la instancia:8000"
 
-## Rutas
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Rutas
 Cuenta con las siguientes rutas:
 
 ### Create Category
